@@ -14,6 +14,8 @@ public class Book {
     private String openLibraryId;
     private String author;
     private String title;
+    private String publisher;
+    private String publishDate;
 
     public Book(){
 
@@ -36,6 +38,14 @@ public class Book {
         return "https://covers.openlibrary.org/b/olid/" + openLibraryId + "-L.jpg?default=false";
     }
 
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public String getPublishDate() {
+        return publishDate;
+    }
+
     // Returns a Book given the expected JSON
     public static Book fromJson(JSONObject jsonObject) {
         Book book = new Book();
@@ -50,6 +60,8 @@ public class Book {
             }
             book.title = jsonObject.has("title_suggest") ? jsonObject.getString("title_suggest") : "";
             book.author = getAuthor(jsonObject);
+            book.publisher = jsonObject.getJSONArray("publisher").getString(0);
+            book.publishDate = jsonObject.getJSONArray("publish_date").getString(0);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
